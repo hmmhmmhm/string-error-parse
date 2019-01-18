@@ -1,13 +1,12 @@
 {
   "name": "string-error-parse",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This module parses the error message (string) of node.js.",
   "main": "parse.js",
   "keywords": [
     "stack-trace",
     "error",
     "parse"
-
   ],
   "author": "hmmhmmhm",
   "license": "MIT"

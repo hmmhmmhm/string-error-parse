@@ -4,7 +4,8 @@ const parse = (input)=>{
         sub: []
     }
     
-    let context1 = input.split('Error: ')
+    let context1 = input.split(`\r`).join(``)
+    context1 = context1.split('Error: ')
     let head = context1[0].split(`\n`)
 
     let context2 = head[0].split(':')
@@ -12,8 +13,10 @@ const parse = (input)=>{
     let fileName = context2.join(':')
     let lineText = head[1]
 
-    let context3 = context1[1].split(`\nat `)
+    let context3 = context1[1].split(`\n`)
     let text = context3.shift()
+
+    context3 = context3.join(`\n`).split(`at `)
 
     // Add Main Error Stack
     parse.main = {
@@ -43,16 +46,21 @@ const parse = (input)=>{
         let lineNumber = context5.pop()
         let fileName = context5.join(':')
 
-        // Add Sub Error Stack
-        parse.sub.push({
-            functionName,
-            typeName,
-            methodName,
+        if(fileName.length != 0){
+            // Add Sub Error Stack
+            parse.sub.push({
+                functionName,
+                typeName,
+                methodName,
 
-            columnNumber,
-            lineNumber,
-            fileName
-        })
+                columnNumber,
+                lineNumber,
+                fileName
+            })
+        }else{
+            if(subContext.split(' ').join('').length != 0)
+                parse.main.text += subContext
+        }
     }
     return parse
 }
